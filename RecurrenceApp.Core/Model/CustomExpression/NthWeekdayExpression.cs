@@ -1,12 +1,6 @@
-namespace RecurrenceApp.Core.Model;
+namespace RecurrenceApp.Core.Model.CustomExpression;
 
-/// <summary>
-/// "2nd Monday" is (Monday, 2); "last Friday" is (Friday, -1).
-/// Positive counts run from the start of the month, negative counts from the end.
-/// </summary>
-/// <param name="Day"></param>
-/// <param name="Count"></param>
-public sealed record DayInMonthTemporalExpression(DayOfWeek Day, int Count) : TemporalExpression
+public sealed record NthWeekdayExpression(DayOfWeek Day, int Count) : TemporalExpression
 {
     protected override bool Includes(DateOnly date)
     {
@@ -22,5 +16,10 @@ public sealed record DayInMonthTemporalExpression(DayOfWeek Day, int Count) : Te
             : (DateTime.DaysInMonth(date.Year, date.Month) - date.Day) / 7 + 1;
 
         return weekInMonth == Math.Abs(Count);
+    }
+
+    public override IEnumerable<string> Errors()
+    {
+        return ErrorIf(Count == 0 || Math.Abs(Count) > 5, "dayInMonth.count must be 1..5 or -1..-5.");
     }
 }

@@ -15,6 +15,11 @@ public abstract record TemporalExpression
     /// </summary>
     /// <returns></returns>
     public virtual IEnumerable<string> Errors() => [];
+    
+    /// <summary>
+    /// Names of holiday calendars this expression references (must be resolved before use).
+    /// </summary>
+    public virtual IEnumerable<string> CalendarRefs() => Array.Empty<string>();
 
     /// <summary>
     /// Replaces calendar references with concrete dates. Keeps Includes() pure (no I/O): the caller
@@ -36,6 +41,6 @@ public abstract record TemporalExpression
             if (Includes(date)) yield return date;
     }
 
-    protected static IEnumerable<string> ErrorIf(bool bad, string message) =>
-        bad ? new[] { message } : [];
+    protected static IEnumerable<string> ErrorIf(bool badCondition, string message) =>
+        badCondition ? new[] { message } : [];
 }

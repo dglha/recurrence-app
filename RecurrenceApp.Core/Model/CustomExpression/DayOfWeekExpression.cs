@@ -1,8 +1,12 @@
 using RecurrenceApp.Core.Enum;
 using RecurrenceApp.Core.Utils;
 
-namespace RecurrenceApp.Core.Model;
+namespace RecurrenceApp.Core.Model.CustomExpression;
 
+/// <summary>
+/// Eg.: Every Monday and Wednesday
+/// </summary>
+/// <param name="Weekdays"></param>
 public record DayOfWeekTemporalExpression(Weekdays Weekdays) : TemporalExpression
 {
     protected override bool Includes(DateOnly date)
