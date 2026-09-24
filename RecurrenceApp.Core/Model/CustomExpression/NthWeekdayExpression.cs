@@ -2,7 +2,7 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 
 public sealed record NthWeekdayExpression(DayOfWeek Day, int Count) : TemporalExpression
 {
-    protected override bool Includes(DateOnly date)
+    public override bool Includes(DateOnly date)
     {
         if (date.DayOfWeek != Day)
         {

@@ -8,7 +8,7 @@ public abstract record TemporalExpression
     /// </summary>
     /// <param name="date"></param>
     /// <returns></returns>
-    protected abstract bool Includes(DateOnly date);
+    public abstract bool Includes(DateOnly date);
     
     /// <summary>
     /// Human-readable validation problems; empty when the expression is well-formed.

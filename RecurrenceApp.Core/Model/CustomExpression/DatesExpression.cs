@@ -4,7 +4,7 @@ public sealed record DatesExpression(IReadOnlyList<DateOnly> Values) : TemporalE
 {
     private readonly HashSet<DateOnly> _valueSet = [..Values];
 
-    protected override bool Includes(DateOnly date)
+    public override bool Includes(DateOnly date)
     {
         return _valueSet.Contains(date);
     }

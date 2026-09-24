@@ -2,7 +2,7 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 
 public sealed record DayOfMonthExpression(int Day) : TemporalExpression
 {
-    protected override bool Includes(DateOnly d) => d.Day == Math.Min(Day, DateTime.DaysInMonth(d.Year, d.Month));
+    public override bool Includes(DateOnly d) => d.Day == Math.Min(Day, DateTime.DaysInMonth(d.Year, d.Month));
 
     public override IEnumerable<string> Errors()
     {

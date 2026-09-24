@@ -1,5 +1,7 @@
 using System.Numerics;
 using RecurrenceApp.Core.Enum;
+using RecurrenceApp.Core.Model.AggregateExpression;
+using RecurrenceApp.Core.Model.CustomExpression;
 
 namespace RecurrenceApp.Core.Model;
 
@@ -71,6 +73,20 @@ public sealed record RecurrenceRule(
 
         return null;
     }
+
+    public TemporalExpression ToExpression(DateOnly anchor) => Frequency switch
+    {
+        Freq.Daily => new IntervalExpression(PeriodUnit.Day, Interval, anchor),
+        Freq.Weekly => WithInterval(PeriodUnit.Week, new DayOfWeekTemporalExpression(Weekdays), anchor),
+        Freq.Monthly when MonthDay is { } monthDay => WithInterval(PeriodUnit.Month, new CustomExpression.DayOfMonthExpression(monthDay), anchor),
+        Freq.Monthly => WithInterval(PeriodUnit.Month, new NthWeekdayExpression(ExtractDayOfWeek(Weekdays), SetPos!.Value), anchor),
+        _ => throw new InvalidOperationException($"Unsupported frequency {Frequency}.")
+    };
+    
+    private TemporalExpression WithInterval(PeriodUnit unit, TemporalExpression pattern, DateOnly anchor)
+        => Interval == 1 ? pattern : new IntersectionExpression([new IntervalExpression(unit, Interval, anchor), pattern]);
+    
+    private static DayOfWeek ExtractDayOfWeek(Weekdays day) => (DayOfWeek)BitOperations.TrailingZeroCount((int)day);
 
     #endregion
 }

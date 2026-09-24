@@ -3,7 +3,7 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 public sealed record HolidaysExpression(string Calendar) : TemporalExpression
 {
     // Fail loudly: silently treating an unresolved calendar as "no holidays" would schedule on holidays.
-    protected override bool Includes(DateOnly d) =>
+    public override bool Includes(DateOnly d) =>
         throw new InvalidOperationException($"Holiday calendar '{Calendar}' is not resolved; call Resolve() first.");
 
     public override IEnumerable<string> CalendarRefs() => [Calendar];

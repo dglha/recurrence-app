@@ -9,7 +9,7 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 /// <param name="Weekdays"></param>
 public record DayOfWeekTemporalExpression(Weekdays Weekdays) : TemporalExpression
 {
-    protected override bool Includes(DateOnly date)
+    public override bool Includes(DateOnly date)
     {
         return (Weekdays & TemporalExpressionUtil.ToFlag(date.DayOfWeek)) != 0;
     }

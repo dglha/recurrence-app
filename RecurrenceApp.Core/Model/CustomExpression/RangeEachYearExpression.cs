@@ -2,7 +2,7 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 
 public sealed record RangeEachYearExpression(int StartMonth, int EndMonth, int StartDay = 0, int EndDay = 0) : TemporalExpression
 {
-    protected override bool Includes(DateOnly date)
+    public override bool Includes(DateOnly date)
     {
         var encodedMonthDay = ToMonthDay(date.Month, date.Day);
         var start = ToMonthDay(StartMonth, StartDay == 0 ? 1 : StartDay );

@@ -5,13 +5,12 @@ namespace RecurrenceApp.Core.Model.CustomExpression;
 
 public sealed record IntervalExpression(PeriodUnit Unit, int Every, DateOnly Anchor) : TemporalExpression
 {
-    protected override bool Includes(DateOnly date)
+    public override bool Includes(DateOnly date)
     {
         return Unit switch
         {
             PeriodUnit.Day => (date.DayNumber - Anchor.DayNumber) % Every == 0,
-            PeriodUnit.Week => (TemporalExpressionUtil.WeekStart(date).DayNumber -
-                                TemporalExpressionUtil.WeekStart(Anchor).DayNumber) / 7 % Every == 0,
+            PeriodUnit.Week => (TemporalExpressionUtil.WeekStart(date).DayNumber - TemporalExpressionUtil.WeekStart(Anchor).DayNumber) / 7 % Every == 0,
             PeriodUnit.Month => ((date.Year - Anchor.Year) * 12 + date.Month - Anchor.Month) % Every == 0,
             _ => false
         };
